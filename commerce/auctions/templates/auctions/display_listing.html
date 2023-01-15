@@ -3,8 +3,6 @@
 {% block body %}
 <h2>Active Listings</h2>
 <ul>
-    {% for listing in current_listings %}
-    <a href="{% url 'listing' listing.id %}">
     <div>
         <h3> {{ listing.title }} </h3>
         <p> {{ listing.current_price }} </p>
@@ -13,9 +11,14 @@
         </li>
         <h4> Owner: {{ listing.owner }} </h4>
     </div>
-    </a>
-    <br>
+    {% if user.is_authenticated %}
+    <form action="{% url 'watchlist' listing.id %}" method="post">
+        {% csrf_token %}
+        <input class="btn btn-primary" type="submit" value="Add to watchlist">
+    </form>
 
-    {% endfor %}
+    {% endif %}
+    <a href="{% url 'index' %}"> Home </a>
+    <br>
 </ul>
 {% endblock %}

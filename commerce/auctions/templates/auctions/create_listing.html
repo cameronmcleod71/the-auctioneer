@@ -1,0 +1,25 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+
+    <h2>New Listing</h2>
+
+    {% if message %}
+        <div>{{ message }}</div>
+    {% endif %}
+
+    <form action="{% url 'create' %}" method="post">
+        {% csrf_token %}
+        <input class="listing_title" type="text" value="Title" name="title" required="required">
+        <input class="starting_price" type="number" value="Starting Price" name="price" min="0" required="required" step=".01">
+        <input class="listing_desc" type="text" value="Item Description" name="description">
+        <input class="listing_image" type="text" value="Optional: Submit a link to an image." name="image">
+        <!-- fix the radio buttons -->
+        <input class="category_tgl" type="radio" value="Choose a category, or create a new one." name="category">
+        <!-- Create a text box and a button to create a category -->
+        <input class="btn btn-primary" type="submit" value="Create Listing">
+    </form>
+
+
+
+{% endblock %}
