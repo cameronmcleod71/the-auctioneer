@@ -97,8 +97,12 @@ def create_category(request):
     pass
 
 def display_listing(request, listing_id):
-    listing = Listing.objects.get(id=listing_id)
-    return render(request, "auctions/display_listing.html", {"listing":listing})
+    if request.method == "POST":
+        Listing.objects.filter(id=listing_id).delete()
+        return HttpResponseRedirect(reverse("index"))
+    else:
+        listing = Listing.objects.get(id=listing_id)
+        return render(request, "auctions/display_listing.html", {"listing":listing})
 
 def watchlist(request, listing_id):
     if request.method == "POST":

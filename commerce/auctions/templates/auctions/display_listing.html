@@ -18,6 +18,13 @@
     </form>
 
     {% endif %}
+    {% if listing.owner ==  user %}
+    <form action="{% url 'listing' listing.id %}" method="post">
+        {% csrf_token %}
+        <input class="btn btn-primary" type="submit" value="Delete">
+    </form>
+
+    {% endif %}
     <a href="{% url 'index' %}"> Home </a>
     <br>
 </ul>
