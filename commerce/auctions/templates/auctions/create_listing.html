@@ -15,11 +15,18 @@
         <input class="listing_desc" type="text" value="Item Description" name="description">
         <input class="listing_image" type="text" value="Optional: Submit a link to an image." name="image">
         <!-- fix the radio buttons -->
-        <input class="category_tgl" type="radio" value="Choose a category, or create a new one." name="category">
+        {% for category in categories %}
+        <input class="category_tgl" type="radio" placeholder="Choose a category, or create a new one." name="listing_category" id="{{ category.type }}" value="{{ category.type }}">
+        <label for="{{ category.type }}">{{ category.type }}</label>
+        {% endfor %}
         <!-- Create a text box and a button to create a category -->
         <input class="btn btn-primary" type="submit" value="Create Listing">
     </form>
-
+    <form action ="{% url 'category' %}" method="post">
+        {% csrf_token %}
+        <input type="text" placeholder="Optional: Category name" name="category">
+        <input class="btn btn-primary" type="submit" value="Create Category">
+    </form>
 
 
 {% endblock %}

@@ -10,7 +10,9 @@ from .models import *
 
 def index(request):
     current_listings = Listing.objects.all()
+    # if Category is empty, add one basic category (none)
     return render(request, "auctions/index.html", {"current_listings": current_listings})
+
 
 
 def login_view(request):
@@ -76,7 +78,8 @@ def create_listing(request):
         image = "none"
         if request.POST["image"] != "":
             image = request.POST["image"]
-        category = Category.objects.get(type="type")
+        type = request.POST["listing_category"]
+        category = Category.objects.get(type=type)
         # send it to the database
         Listing.objects.create(
             title = title,
@@ -90,11 +93,17 @@ def create_listing(request):
 
             
     else:
-        return render(request, "auctions/create_listing.html")
+        return render(request, "auctions/create_listing.html", {"categories": Category.objects.all()})
 
-def create_category(request):
+def category(request):
     # make a category form in django, grab taht data from here and make a new category, then send the user back to the craete_listing page with there old form data
-    pass
+    if request.method == "POST":
+        type = request.POST["category"]
+        Category.objects.create(
+            type=type
+            )
+    return HttpResponseRedirect(reverse("index"))
+        
 
 def display_listing(request, listing_id):
     if request.method == "POST":
@@ -111,7 +120,7 @@ def watchlist(request, listing_id):
         Watchlist.objects.create(
             owner = user,
             listing = watchlist_listing
-        )
+            )
         return HttpResponseRedirect(reverse("index"))
 
     else:
