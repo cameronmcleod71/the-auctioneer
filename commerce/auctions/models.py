@@ -24,6 +24,7 @@ class Bid(models.Model):
 class Comment(models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name="my_comments")
     listing = models.ForeignKey(Listing, on_delete=models.CASCADE, related_name="comments")
+    text = models.TextField()
 
 class Watchlist(models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name="my_watchlist")

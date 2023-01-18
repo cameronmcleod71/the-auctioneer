@@ -111,7 +111,7 @@ def display_listing(request, listing_id):
         return HttpResponseRedirect(reverse("index"))
     else:
         listing = Listing.objects.get(id=listing_id)
-        return render(request, "auctions/display_listing.html", {"listing":listing})
+        return render(request, "auctions/display_listing.html", {"listing":listing, "comments": listing.comments.all()})
 
 def watchlist(request, listing_id):
     if request.method == "POST":
@@ -120,8 +120,28 @@ def watchlist(request, listing_id):
         Watchlist.objects.create(
             owner = user,
             listing = watchlist_listing
-            )
+        )
         return HttpResponseRedirect(reverse("index"))
 
     else:
         return render(request, "auctions/watchlist.html", {"watchlists": Watchlist.objects.all()})
+
+def category_view(request, cat_type):
+    if str(cat_type) == "empty":
+        return render(request, "auctions/category_view.html", {"categories": Category.objects.all(), "listings":[]})
+    else:
+        return render(request, "auctions/category_view.html", {"categories": [], "listings": Listing.objects.filter(category=Category.objects.get(type=cat_type))})
+
+def comment(request, listing_id):
+    if request.method == "POST":
+        user = request.user
+        listing = Listing.objects.get(id=listing_id)
+        text = request.POST["comment_text"]
+        Comment.objects.create(
+            owner = user,
+            listing=listing,
+            text=text
+        )
+    return HttpResponseRedirect(reverse("index"))
+
+        
