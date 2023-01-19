@@ -1,0 +1,11 @@
+<li><!-- this snippet template is going to be inserted into display_listing and other places by django -->
+    <div>
+        <a href="{% url 'listing' listing.id %}">
+            <h3> {{ listing.title }} </h3><br>
+            <h4> {{ listing.current_price }} </h4>
+            <img src="{{ listing.image }}" alt="No image available for this add :(">
+            <p> {{ listing.description }} </p>
+            <h4> Owner: {{ listing.owner }} </h4>
+        </a>
+    </div>
+</li>

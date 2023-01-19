@@ -4,17 +4,7 @@
 <h2>Active Listings</h2>
 <ul>
     {% for listing in current_listings %}
-    <a href="{% url 'listing' listing.id %}">
-    <div>
-        <h3> {{ listing.title }} </h3>
-        <p> {{ listing.current_price }} </p>
-        <img src="{{ listing.image }}" alt="No image available for this add :(">
-        <li>
-            <p> {{ listing.description }} </p>
-        </li>
-        <h4> Owner: {{ listing.owner }} </h4>
-    </div>
-    </a>
+    {% include "auctions/listing_item.html" with listing=listing %}
     <br>
     {% endfor %}
 </ul>
